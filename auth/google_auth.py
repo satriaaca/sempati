@@ -1,7 +1,12 @@
+import json
 import os
 from flask import session
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
+from dotenv import load_dotenv
+
+# Membaca file .env jika ada (khusus di lokal)
+load_dotenv()
 
 SCOPES = [
     "openid",
@@ -11,38 +16,25 @@ SCOPES = [
     "https://www.googleapis.com/auth/documents",
 ]
 
-# Mengambil REDIRECT_URI dari env (Pastikan di Render diisi URL prod, di lokal diisi 127.0.0.1)
+# Mengambil string JSON dan Redirect URI langsung dari Environment Variable
+CLIENT_SECRET_ENV = os.environ.get("GOOGLE_CREDENTIALS")
 REDIRECT_URI = os.environ.get(
     "OAUTH_REDIRECT_URI", "http://127.0.0.1:5000/oauth2callback"
 )
 
 
-def get_client_secrets_path():
-    """Fungsi otomatis untuk mendeteksi lokasi file credentials.json"""
-    # 1. Cek jalur standar Secret File dari Render
-    render_secrets_path = "/etc/secrets/credentials.json"
-    if os.path.exists(render_secrets_path):
-        return render_secrets_path
-
-    # 2. Cek di root folder (bisa di Render runtime atau di komputer lokal Anda)
-    local_root_path = "credentials.json"
-    if os.path.exists(local_root_path):
-        return local_root_path
-
-    raise FileNotFoundError(
-        "File credentials.json tidak ditemukan di lokal maupun di /etc/secrets/"
-    )
-
-
 def create_flow():
-    # Menentukan path file secara dinamis dan otomatis
-    client_secrets_file = get_client_secrets_path()
-
+    if not CLIENT_SECRET_ENV:
+        raise ValueError("Environment variable GOOGLE_CREDENTIALS belum di-set!")
     if not REDIRECT_URI:
-        raise ValueError("Environment variable OAUTH_REDIRECT_URI belum dikonfigurasi!")
+        raise ValueError("Environment variable OAUTH_REDIRECT_URI belum di-set!")
 
-    return Flow.from_client_secrets_file(
-        client_secrets_file, scopes=SCOPES, redirect_uri=REDIRECT_URI
+    # Mengubah string JSON dari Env Var menjadi dictionary Python
+    client_config = json.loads(CLIENT_SECRET_ENV)
+
+    # Menggunakan dari_client_config agar tidak membutuhkan file credentials.json fisik
+    return Flow.from_client_config(
+        client_config, scopes=SCOPES, redirect_uri=REDIRECT_URI
     )
 
 
