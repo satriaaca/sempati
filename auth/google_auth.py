@@ -3,10 +3,6 @@ import os
 from flask import session
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
-from dotenv import load_dotenv
-
-# Membaca file .env jika ada (khusus di lokal)
-load_dotenv()
 
 SCOPES = [
     "openid",
