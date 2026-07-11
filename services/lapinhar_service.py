@@ -36,8 +36,8 @@ def create_lapinhar_document(
     kategori = form_data["category"]
     kode_masalah = form_data["kodeMasalah"]
 
-    informasi_html = form_data["informasi"]
-    trend_html = form_data["trend"]
+    informasi_html = form_data["infoContent"]
+    trend_html = form_data["trendContent"]
 
     laporan_date = datetime.datetime.strptime(form_data["tglInput"], "%Y-%m-%d")
 
