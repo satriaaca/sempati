@@ -73,11 +73,11 @@ def create_lapinhar_document(
 
     laporan_date = datetime.datetime.strptime(form_data["tglInput"], "%Y-%m-%d")
 
-    pejabat = form_data.get("pejabat", "xxxx.")
+    pejabat = form_data.get("pejabat", "I Putu Nuriyanto, S.H, M.H.")
 
     jabatan = form_data.get("jabatan", "Kepala Seksi Intelijen")
 
-    nip = form_data.get("nip", "19950101XXXXXXXX")
+    nip = form_data.get("nip", "Jaksa Muda NIP. 19820412 200501 1 003")
 
     informasi_items = html_to_lines(informasi_html)
 
