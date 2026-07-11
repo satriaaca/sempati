@@ -1,0 +1,157 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Preview LAPINHAR
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card shadow-sm rounded-4">
+
+<div class="card-header bg-success text-white">
+    Preview Laporan Informasi Harian
+</div>
+
+
+<div class="card-body">
+
+<div id="previewArea">
+
+</div>
+
+
+<hr>
+
+
+<button 
+class="btn btn-success"
+onclick="saveLapinhar()">
+
+💾 Generate Dokumen
+
+</button>
+
+
+</div>
+
+</div>
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script>
+
+const data =
+JSON.parse(
+    sessionStorage.getItem(
+        "lapinhar_preview"
+    )
+);
+
+
+
+document.getElementById(
+    "previewArea"
+).innerHTML = `
+
+
+<h5 class="text-center">
+LAPORAN INFORMASI HARIAN
+</h5>
+
+
+<p>
+<b>Nomor :</b>
+${data.nomorSurat}
+</p>
+
+
+<p>
+<b>Perihal :</b>
+${data.perihal}
+</p>
+
+
+<hr>
+
+
+<h6>
+I. INFORMASI YANG DIPEROLEH
+</h6>
+
+${data.informasiDiperoleh}
+
+
+
+<h6 class="mt-4">
+III. TREND PERKEMBANGAN/PERKIRAAN
+</h6>
+
+${data.trendPerkembangan}
+
+
+
+<h6 class="mt-4">
+PENANDATANGAN
+</h6>
+
+
+<p>
+${data.jabatan}
+<br><br><br>
+
+<b>
+${data.pejabat}
+</b>
+<br>
+${data.nip}
+
+</p>
+
+
+`;
+
+
+
+async function saveLapinhar(){
+
+    const response =
+        await fetch(
+            "/api/save-form",
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                JSON.stringify(data)
+
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    alert(
+        result.message ||
+        result.error
+    );
+
+
+}
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}LAPINHAR{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold">
+            📄 LAPINHAR
+        </h2>
+
+        <p class="text-secondary mb-0">
+            Laporan Informasi Harian (L.IN.1)
+        </p>
+    </div>
+
+</div>
+
+<form id="lapinharForm">
+
+    <!-- Informasi Umum -->
+    <div class="card shadow-sm mb-4 rounded-4 border-0">
+
+        <div class="card-header bg-success text-white">
+            Informasi Umum
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-3 mb-3">
+                    <label>Nomor Surat</label>
+                    <input type="number"
+                           class="form-control"
+                           id="nomorSurat">
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label>Tanggal</label>
+                    <input type="date"
+                           class="form-control"
+                           id="tglInput">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Perihal</label>
+                    <input type="text"
+                           class="form-control"
+                           id="perihalInput">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Kategori</label>
+                    <select class="form-select"
+                            id="categorySelect">
+                      <option value="Sosial">Sosial</option>
+                      <option value="Ekonomi">Ekonomi</option>
+                      <option value="Politik">Politik</option>
+                      <option value="Budaya">Budaya</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                <label>Kode Masalah</label>
+                <select class="form-select"
+                            id="kodeMasalah" required>
+                    <option value="" selected="selected">--Pilih--</option>
+
+                    <optgroup label="Dek - DIREKTORAT EKONOMI DAN KEUANGAN (C)">
+                      <option value="Dek.1">Dek.1 - SUBDIREKTORAT KEUANGAN DAN KEKAYAAN NEGARA (C.1)</option>
+                      <option value="Dek.2">Dek.2 - SUBDIREKTORAT INVESTASI DAN PENERIMAAN NEGARA (C.2)</option>
+                      <option value="Dek.3">Dek.3 - SUBDIREKTORAT PERDAGANGAN, PERINDUSTRIAN DAN KETENAGAKERJAAN (C.3)</option>
+                      <option value="Dek.4">Dek.4 - SUBDIREKTORAT SUMBER DAYA ALAM DAN AGRARIA ATAU TATA RUANG (C.4)</option>
+                    </optgroup>
+
+                    <optgroup label="Dip - DIREKTORAT IDEOLOGI, POLITIK, PERTAHANAN DAN KEAMANAN (A)">
+                      <option value="Dip.1">Dip.1 - SUBDIREKTORAT IDEOLOGI (A.1)</option>
+                      <option value="Dip.2">Dip.2 - SUBDIREKTORAT POLITIK (A.2)</option>
+                      <option value="Dip.3">Dip.3 - SUBDIREKTORAT PERTAHANAN DAN KEAMANAN (A.3)</option>
+                      <option value="Dip.4">Dip.4 - SUBDIREKTORAT CEGAH TANGKAL, PENGAWASAN ORANG ASING, PENGAMANAN SUMBER DAYA ORGANISASI KEJAKSAAN, DAN PENGAMANAN PENANGANAN PERKARA (A.4)</option>
+                    </optgroup>
+
+                    <optgroup label="Dpp - DIREKTORAT PENGAMANAN PEMBANGUNAN STRATEGIS (D)">
+                      <option value="Dpp.1">Dpp.1 - SUBDIREKTORAT PENGAMANAN PEMBANGUNAN INFRASTUKTUR TRANSPORTASI DAN TELEKOMUNIKASI (D.1)</option>
+                      <option value="Dpp.2">Dpp.2 - SUBDIREKTORAT PENGAMANAN PEMBANGUNAN INFRASTUKTUR PENGAIRAN, PERTANIAN, DAN KELAUTAN (D.2)</option>
+                      <option value="Dpp.3">Dpp.3 - SUBDIREKTORAT PENGAMANAN PEMBANGUNAN INFRASTUKTUR ENERGI, SUMBER DAYA ALAM DAN ILMU PENGETAHUAN, DAN TEKNOLOGI (D.3)</option>
+                      <option value="Dpp.4">Dpp.4 - SUBDIREKTORAT PENGAMANAN PEMBANGUNAN INFRASTUKTUR KAWASAN DAN SEKTOR STRATEGIS LAINNYA (D.4)</option>
+                     </optgroup>
+                    
+                    <optgroup label="Dsb - DIREKTORAT SOSIAL, BUDAYA DAN KEMASYARAKATAN (B)">
+                    <option value="Dsb.1">Dsb.1 - SUBDIREKTORAT PEREDARAN BARANG CETAKAN DAN MEDIA KOMUNIKASI (B.1)</option>
+                    <option value="Dsb.2">Dsb.2 - SUBDIREKTORAT ALIRAN KEPERCAYAAN MASYARAKAT DAN ALIRAN KEAGAMAAN, SERTA PENCEGAHAN PENYALAHGUNAAN DAN PENODAAN AGAMA (B.2)</option>
+                    <option value="Dsb.3">Dsb.3 - SUBDIREKTORAT BUDAYA DAN KEMASYARAKATAN (B.3)</option>
+                    <option value="Dsb.4">Dsb.4 - SUBDIREKTORAT SOSIAL, KETERTIBAN DAN KETENTRAMAN UMUM, PEMBINAAN MASYARAKAT TAAT HUKUM (B.4)</option>
+                     </optgroup>
+                    
+                    <optgroup label="Dti - DIREKTORAT TEKNOLOGI INFORMASI DAN PRODUKSI INTELIJEN (E)">
+                      <option value="Dti.1">Dti.1 - SUBDIREKTORAT PRODUKSI INTELIJEN (E.1)</option>
+                      <option value="Dti.2">Dti.2 - SUBDIREKTORAT PEMANTAUAN (E.2)</option>
+                      <option value="Dti.3">Dti.3 - SUBDIREKTORAT PENGAMANAN INFORMASI (E.3)</option>
+                      <option value="Dti.4">Dti.4 - SUBDIREKTORAT PENGEMBANGAN SUMBER DAYA TEKNOLOGI INFORMASI (E.4)</option>
+                    </optgroup>
+
+                </select>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Informasi -->
+   <div class="mb-3">
+    <label class="form-label fw-semibold">
+        Informasi Yang Diperoleh
+    </label>
+
+    <textarea
+        id="informasiDiperoleh"
+        name="informasiDiperoleh">
+    </textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold">
+            Trend Perkembangan
+        </label>
+
+        <textarea
+            id="trendPerkembangan"
+            name="trendPerkembangan">
+        </textarea>
+    </div>
+
+    <!-- Penandatangan -->
+    <div class="card shadow-sm mb-4 rounded-4 border-0">
+
+        <div class="card-header bg-success text-white">
+            Penandatangan
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Nama</label>
+                    <input class="form-control" id="pejabat" value="I Putu Nuriyanto, S.H, M.H.">
+                </div>
+
+                <div class="col-md-4">
+                    <label>Jabatan</label>
+                    <input class="form-control" id="jabatan" value='Kepala Seksi Intelijen'>
+                </div>
+
+                <div class="col-md-4">
+                    <label>NIP</label>
+                    <input class="form-control" id="nip" value="Jaksa Muda NIP. 19820412 200501 1 003 ">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<button
+    type="button"
+    id="saveButton"
+    class="btn btn-success">
+    💾 Simpan dan Generate
+</button>
+
+<!-- <button 
+    type="button"
+    class="btn btn-outline-secondary"
+    onclick="previewLapinhar()">
+    👁 Preview
+</button> -->
+
+</form>
+
+<div class="modal fade" id="previewModal" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+        <div class="modal-content rounded-4">
+
+            <div class="modal-header bg-success text-white">
+
+                <h5 class="modal-title">
+                    👁 Preview LAPINHAR
+                </h5>
+
+                <button 
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div id="previewArea"
+                     class="p-4">
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button 
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    Tutup
+
+                </button>
+
+
+                <button 
+                    class="btn btn-success"
+                    onclick="saveLapinhar()">
+
+                    💾 Generate Dokumen
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+<script src="{{ url_for('static', filename='js/lapinhar.js') }}"></script>
+{% endblock %}

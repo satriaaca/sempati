@@ -1,0 +1,479 @@
+/* ==========================
+   GLOBAL
+========================== */
+
+:root {
+
+    --primary-green: #166534;
+    --primary-green-light: #15803d;
+    --sidebar-dark: #14532d;
+
+    --bg-light: #f5f7fb;
+    --bg-dark: #111827;
+
+    --text-light: #1f2937;
+    --text-dark: #e5e7eb;
+
+}
+
+
+body {
+
+    background: var(--bg-light);
+
+    overflow-x: hidden;
+
+    transition: background .3s ease;
+
+}
+
+
+[data-bs-theme="dark"] body {
+
+    background: var(--bg-dark);
+
+}
+
+
+/* ==========================
+   APP WRAPPER
+========================== */
+
+.app-wrapper {
+
+    display: flex;
+
+}
+
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+
+.sidebar {
+
+    width: 260px;
+
+    height: 100vh;
+
+    color: white;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+
+    display: flex;
+
+    flex-direction: column;
+
+
+    z-index: 1040;
+
+
+    transition: .3s ease;
+
+
+    /*
+        Pattern hijau halus
+    */
+
+    background-color: var(--sidebar-dark);
+
+    background-image:
+
+        linear-gradient(135deg,
+            rgba(255, 255, 255, .05) 25%,
+            transparent 25%),
+
+        linear-gradient(225deg,
+            rgba(255, 255, 255, .05) 25%,
+            transparent 25%),
+
+        linear-gradient(45deg,
+            rgba(255, 255, 255, .05) 25%,
+            transparent 25%),
+
+        linear-gradient(315deg,
+            rgba(255, 255, 255, .05) 25%,
+            transparent 25%);
+
+    background-position:
+        10px 0,
+        10px 0,
+        0 0,
+        0 0;
+
+
+    background-size:
+        20px 20px;
+
+
+}
+
+
+
+/* HEADER */
+
+.sidebar-header {
+
+    padding: 24px;
+
+    border-bottom:
+
+        1px solid rgba(255, 255, 255, .15);
+
+}
+
+
+
+/* MENU */
+
+
+.menu-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+
+    padding:
+
+        14px 24px;
+
+
+    color:
+
+        rgba(255, 255, 255, .9);
+
+
+    text-decoration: none;
+
+
+    transition: .2s;
+
+}
+
+
+.menu-item:hover {
+
+
+    background:
+
+        rgba(255, 255, 255, .12);
+
+
+    color: white;
+
+
+}
+
+
+.menu-item i {
+
+    width: 20px;
+
+    text-align: center;
+
+}
+
+
+/* ==========================
+   CONTENT
+========================== */
+
+
+.content-area {
+
+
+    margin-left: 260px;
+
+
+    flex: 1;
+
+
+    min-width: 0;
+
+
+    min-height: 100vh;
+
+
+}
+
+
+
+/* ==========================
+   CARD DARK MODE
+========================== */
+
+
+.card {
+
+
+    border: none;
+
+
+    transition: .3s;
+
+}
+
+
+
+[data-bs-theme="dark"] .card {
+
+
+    background: #1f2937;
+
+
+    color: #e5e7eb;
+
+
+}
+
+
+
+[data-bs-theme="dark"] .card-header {
+
+
+    background: #166534 !important;
+
+
+}
+
+
+
+
+/* ==========================
+   FORM DARK MODE
+========================== */
+
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+
+
+    background: #111827;
+
+
+    border-color: #374151;
+
+
+    color: #e5e7eb;
+
+
+}
+
+
+[data-bs-theme="dark"] .form-control::placeholder {
+
+
+    color: #9ca3af;
+
+
+}
+
+
+
+/* ==========================
+   MOBILE HEADER
+========================== */
+
+
+.mobile-header {
+
+
+    height: 60px;
+
+
+    background: white;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 15px;
+
+
+    padding: 0 15px;
+
+
+    border-bottom:
+
+        1px solid #e5e7eb;
+
+
+    position: sticky;
+
+
+    top: 0;
+
+
+    z-index: 1030;
+
+}
+
+
+[data-bs-theme="dark"] .mobile-header {
+
+
+    background: #111827;
+
+
+    border-color: #374151;
+
+
+}
+
+
+
+/* ==========================
+   OVERLAY
+========================== */
+
+
+#sidebarOverlay {
+
+
+    position: fixed;
+
+
+    inset: 0;
+
+
+    background:
+
+        rgba(0, 0, 0, .45);
+
+
+    opacity: 0;
+
+
+    visibility: hidden;
+
+
+    transition: .25s;
+
+
+    z-index: 1035;
+
+
+}
+
+
+#sidebarOverlay.show {
+
+
+    opacity: 1;
+
+
+    visibility: visible;
+
+
+}
+
+
+
+/* ==========================
+   MOBILE
+========================== */
+
+
+@media(max-width:991px) {
+
+
+    .sidebar {
+
+
+        transform:
+
+            translateX(-100%);
+
+
+    }
+
+
+    .sidebar.show {
+
+
+        transform:
+
+            translateX(0);
+
+
+    }
+
+
+    .content-area {
+
+
+        margin-left: 0;
+
+
+    }
+
+
+}
+
+
+
+/* ==========================
+   CKEDITOR
+========================== */
+
+
+.ck-editor__editable {
+
+
+    min-height: 250px;
+
+
+}
+
+
+[data-bs-theme="dark"] .ck-editor__editable {
+
+
+    background: #111827 !important;
+
+
+    color: #e5e7eb !important;
+
+
+}
+
+
+[data-bs-theme="dark"] .ck.ck-toolbar {
+
+
+    background: #1f2937 !important;
+
+    border-color: #374151 !important;
+
+}
+
+.menu-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 12px;
+    padding: 20px;
+    border-color: #ababab !important;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.icon-box {
+    font-size: 3rem;
+    color: #198754;
+}

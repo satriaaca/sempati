@@ -1,0 +1,73 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="mb-5">
+    <h1 class="fw-bold text-success">Sistem Intelijen Terpadu</h1>
+    <p class="text-secondary">
+        Kejaksaan Negeri Tabanan
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-4">
+        <div class="menu-card">
+            <div class="service-icon">
+                📄
+            </div>
+
+            <h4>LAPINHAR</h4>
+
+            <p>
+                Laporan Informasi Harian (L.IN.1)
+            </p>
+
+            <a href="{{ url_for('lapinhar_page') }}"
+               class="btn btn-success">
+                Buka Modul
+            </a>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="menu-card">
+            <div class="service-icon">
+                🚨
+            </div>
+
+            <h4>LAPINSUS</h4>
+
+            <p>
+                Laporan Informasi Khusus
+            </p>
+
+            <button class="btn btn-outline-secondary">
+                Coming Soon
+            </button>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="menu-card">
+            <div class="service-icon">
+                📊
+            </div>
+
+            <h4>Dashboard Statistik</h4>
+
+            <p>
+                Analisis dan tren laporan.
+            </p>
+
+            <button class="btn btn-outline-secondary">
+                Coming Soon
+            </button>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
