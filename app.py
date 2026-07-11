@@ -5,6 +5,7 @@ from google.oauth2.credentials import Credentials
 
 from services.lapinhar_service import create_lapinhar_document
 from services.google_service import get_google_services, GOOGLE_FOLDER_ID
+from auth.google_auth import create_flow, save_credentials, get_credentials, REDIRECT_URI
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
@@ -21,35 +22,35 @@ SCOPES = [
     "https://www.googleapis.com/auth/documents",
 ]
 
-CLIENT_SECRETS_FILE = "credentials.json"
+# CLIENT_SECRETS_FILE = "credentials.json"
 
-REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://127.0.0.1:5000/oauth2callback")
-
-
-def create_flow():
-    return Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE,
-        scopes=SCOPES,
-        redirect_uri=REDIRECT_URI,
-    )
+# REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://127.0.0.1:5000/oauth2callback")
 
 
-def save_credentials(credentials):
-    session["credentials"] = {
-        "token": credentials.token,
-        "refresh_token": credentials.refresh_token,
-        "token_uri": credentials.token_uri,
-        "client_id": credentials.client_id,
-        "client_secret": credentials.client_secret,
-        "scopes": credentials.scopes,
-    }
+# def create_flow():
+#     return Flow.from_client_secrets_file(
+#         CLIENT_SECRETS_FILE,
+#         scopes=SCOPES,
+#         redirect_uri=REDIRECT_URI,
+#     )
 
 
-def get_credentials():
-    if "credentials" not in session:
-        return None
+# def save_credentials(credentials):
+#     session["credentials"] = {
+#         "token": credentials.token,
+#         "refresh_token": credentials.refresh_token,
+#         "token_uri": credentials.token_uri,
+#         "client_id": credentials.client_id,
+#         "client_secret": credentials.client_secret,
+#         "scopes": credentials.scopes,
+#     }
 
-    return Credentials(**session["credentials"])
+
+# def get_credentials():
+#     if "credentials" not in session:
+#         return None
+
+#     return Credentials(**session["credentials"])
 
 
 PUBLIC_ENDPOINTS = {
