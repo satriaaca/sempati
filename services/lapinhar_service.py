@@ -1,5 +1,6 @@
 import os
 import datetime
+import tempfile
 
 from docx import Document
 from docx.shared import Inches, Pt, Cm
@@ -23,6 +24,37 @@ MONTHS_ID = [
     "November",
     "Desember",
 ]
+
+
+def upload_to_drive(doc, file_name, drive_service, target_folder_id=None):
+    # Menyimpan file dengan aman di folder /tmp milik Vercel
+    local_docx = os.path.join(tempfile.gettempdir(), file_name)
+    doc.save(local_docx)
+
+    metadata = {
+        "name": file_name,
+        "mimeType": "application/vnd.google-apps.document",  # Mengonversi otomatis menjadi Google Docs
+    }
+
+    if target_folder_id:
+        metadata["parents"] = [target_folder_id]
+
+    media = MediaFileUpload(
+        local_docx,
+        mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        resumable=True,
+    )
+
+    try:
+        uploaded = (
+            drive_service.files()
+            .create(body=metadata, media_body=media, fields="id,webViewLink")
+            .execute()
+        )
+        return uploaded["webViewLink"]
+    finally:
+        if os.path.exists(local_docx):
+            os.remove(local_docx)
 
 
 def create_lapinhar_document(
@@ -171,25 +203,14 @@ def create_lapinhar_document(
 
     p.add_run(f"{nip}")
 
-    doc.save(local_docx)
+    try:
+        # 4. Panggil fungsi untuk memproses dan mengunggah dokumen
+        link_dokumen = upload_to_drive(
+            doc, file_name, drive_service, target_folder_id=target_folder_id
+        )
 
-    metadata = {"name": file_name, "mimeType": "application/vnd.google-apps.document"}
+        # Kembalikan link atau arahkan user ke dokumen Google Docs yang baru jadi
+        return link_dokumen
 
-    if target_folder_id:
-        metadata["parents"] = [target_folder_id]
-
-    media = MediaFileUpload(
-        local_docx,
-        mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    )
-
-    uploaded = (
-        drive_service.files()
-        .create(body=metadata, media_body=media, fields="id,webViewLink")
-        .execute()
-    )
-
-    if os.path.exists(local_docx):
-        os.remove(local_docx)
-
-    return uploaded["webViewLink"]
+    except Exception as e:
+        return f"Terjadi kesalahan saat memproses dokumen: {str(e)}", 500
