@@ -68,7 +68,15 @@ async function saveDocument() {
             editorInformasi.getData(),
 
         trendContent:
-            editorTrend.getData()
+            editorTrend.getData(),
+        
+        pejabat:
+            pejabat.getData(),
+        
+        jabatan:
+            jabatan.getData(),
+        nip:
+            nip.getData()
     };
 
     try {
