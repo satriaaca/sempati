@@ -200,7 +200,8 @@ def create_lapinhar_document(
     nama.bold = True
     nama.underline = True
 
-    p.add_run(f"{nip}")
+    nip = p.add_run(f"{nip}")
+    nip.bold = True
 
     try:
         # 4. Panggil fungsi untuk memproses dan mengunggah dokumen

@@ -4,121 +4,96 @@ let editorTrend;
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
+        try {
+            editorInformasi = await ClassicEditor.create(
+                document.querySelector("#informasiDiperoleh")
+            );
 
-        editorInformasi = await ClassicEditor.create(
-            document.querySelector("#informasiDiperoleh")
-        );
+            editorTrend = await ClassicEditor.create(
+                document.querySelector("#trendPerkembangan")
+            );
+        } catch (error) {
+            console.error("Gagal memuat CKEditor:", error);
+        }
 
-        editorTrend = await ClassicEditor.create(
-            document.querySelector("#trendPerkembangan")
-        );
-
-        const saveButton =
-            document.getElementById("saveButton");
-
+        const saveButton = document.getElementById("saveButton");
         if (saveButton) {
-            saveButton.addEventListener(
-                "click",
-                saveDocument
-            );
+            saveButton.addEventListener("click", saveDocument);
         }
 
-        const previewButton =
-            document.getElementById("previewButton");
-
+        const previewButton = document.getElementById("previewButton");
         if (previewButton) {
-            previewButton.addEventListener(
-                "click",
-                previewDocument
-            );
+            previewButton.addEventListener("click", previewDocument);
         }
-
     }
 );
 
 async function saveDocument() {
-
     const payload = {
-        nomorSurat:
-            document.getElementById(
-                "nomorSurat"
-            ).value,
-
-        perihal:
-            document.getElementById(
-                "perihalInput"
-            ).value,
-
-        tglInput:
-            document.getElementById(
-                "tglInput"
-            ).value,
-
-        category:
-            document.getElementById(
-                "categorySelect"
-            ).value,
-
-        kodeMasalah:
-            document.getElementById(
-                "kodeMasalah"
-            ).value,
-
-        infoContent:
-            editorInformasi.getData(),
-
-        trendContent:
-            editorTrend.getData(),
-        
-        pejabat: document.getElementById( "pejabat").value,
+        nomorSurat: document.getElementById("nomorSurat").value,
+        perihal: document.getElementById("perihalInput").value,
+        tglInput: document.getElementById("tglInput").value,
+        category: document.getElementById("categorySelect").value,
+        kodeMasalah: document.getElementById("kodeMasalah").value,
+        infoContent: editorInformasi ? editorInformasi.getData() : "",
+        trendContent: editorTrend ? editorTrend.getData() : "",
+        pejabat: document.getElementById("pejabat").value,
         jabatan: document.getElementById("jabatan").value,
         nip: document.getElementById("nip").value
     };
 
     try {
-
         const response = await fetch(
             "/api/save-form",
             {
                 method: "POST",
                 headers: {
-                    "Content-Type":
-                        "application/json"
+                    "Content-Type": "application/json"
                 },
-                body:
-                    JSON.stringify(payload)
+                body: JSON.stringify(payload)
             }
         );
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
-        alert(
-            data.message ||
-            "Berhasil disimpan"
-        );
+        if (!response.ok) {
+            throw new Error(data.message || "Gagal menyimpan ke server");
+        }
+
+        alert(data.message || "Berhasil disimpan");
+        cleanText();
 
     } catch (err) {
-
         console.error(err);
-
-        alert(
-            "Gagal menyimpan laporan"
-        );
+        alert(err.message || "Gagal menyimpan laporan");
     }
 }
 
 function previewDocument() {
-
     console.log({
-        informasi:
-            editorInformasi.getData(),
-
-        trend:
-            editorTrend.getData()
+        informasi: editorInformasi ? editorInformasi.getData() : "",
+        trend: editorTrend ? editorTrend.getData() : ""
     });
 
-    alert(
-        "Preview belum dibuat"
-    );
+    alert("Preview belum dibuat");
+}
+
+function cleanText() {
+    // Kosongkan input form standar
+    document.getElementById("nomorSurat").value = "";
+    document.getElementById("perihalInput").value = "";
+    document.getElementById("tglInput").value = "";
+    document.getElementById("categorySelect").value = "";
+    document.getElementById("kodeMasalah").value = "";
+    document.getElementById("pejabat").value = "";
+    document.getElementById("jabatan").value = "";
+    document.getElementById("nip").value = "";
+
+    // Kosongkan CKEditor menggunakan method .setData()
+    if (editorInformasi) {
+        editorInformasi.setData("");
+    }
+    if (editorTrend) {
+        editorTrend.setData("");
+    }
 }
