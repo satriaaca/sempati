@@ -185,10 +185,12 @@ def create_lapinhar_document(
     # rata tengah
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
-    p.add_run(
+    tgl = p.add_run(
         f"\nSingasana, {tanggal_indonesia}\n"
-        f"{jabatan}\n\n"
+        f"{jabatan}\n"
+        f" Kejaksaan Negeri Tabanan\n"
     )
+    tgl.bold = True
 
     # Tambahkan gambar tanda tangan
     run_gambar = p.add_run()
