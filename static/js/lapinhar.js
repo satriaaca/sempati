@@ -70,13 +70,9 @@ async function saveDocument() {
         trendContent:
             editorTrend.getData(),
         
-        pejabat:
-            pejabat.getData(),
-        
-        jabatan:
-            jabatan.getData(),
-        nip:
-            nip.getData()
+        pejabat: document.getElementById( "pejabat").value,
+        jabatan: document.getElementById("jabatan").value,
+        nip: document.getElementById("nip").value
     };
 
     try {
