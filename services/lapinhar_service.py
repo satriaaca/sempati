@@ -121,7 +121,7 @@ def create_lapinhar_document(
 
     p = doc.add_paragraph()
     p.paragraph_format.space_after = Pt(2)
-    run = p.add_run("KEJAKSAAN NEGERI TABANAN\n\n")
+    run = p.add_run("KEJAKSAAN NEGERI TABANAN\n")
     run.bold = True
     run.underline = True
 
@@ -137,11 +137,8 @@ def create_lapinhar_document(
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.add_run(f"NOMOR:LIH-{nomor_surat}//N.1.17/{kode_masalah}/{mm}/{yyyy}")
 
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     run.bold = True
-
     p = doc.add_paragraph()
     p.add_run("I. INFORMASI YANG DIPEROLEH").bold = True
     p.paragraph_format.space_after = Pt(0)
@@ -189,7 +186,7 @@ def create_lapinhar_document(
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     p.add_run(
-        f"\n\nSingasana, {tanggal_indonesia}\n"
+        f"\nSingasana, {tanggal_indonesia}\n"
         f"{jabatan}\n\n"
     )
 
