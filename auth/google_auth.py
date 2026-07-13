@@ -12,26 +12,42 @@ SCOPES = [
     "https://www.googleapis.com/auth/documents",
 ]
 
-# Mengambil string JSON dan Redirect URI langsung dari Environment Variable
+# Mengambil string JSON dan Redirect URI dari Environment Variable
 CLIENT_SECRET_ENV = os.environ.get("GOOGLE_CREDENTIALS")
 REDIRECT_URI = os.environ.get(
     "OAUTH_REDIRECT_URI", "http://127.0.0.1:5000/oauth2callback"
 )
 
+# Nama file fallback jika environment variable kosong
+CREDENTIALS_FILE = "credentials.json"
+
 
 def create_flow():
-    if not CLIENT_SECRET_ENV:
-        raise ValueError("Environment variable GOOGLE_CREDENTIALS belum di-set!")
     if not REDIRECT_URI:
         raise ValueError("Environment variable OAUTH_REDIRECT_URI belum di-set!")
 
-    # Mengubah string JSON dari Env Var menjadi dictionary Python
-    client_config = json.loads(CLIENT_SECRET_ENV)
+    # Jalur 1: Jika Environment Variable tersedia, gunakan dari_client_config
+    if CLIENT_SECRET_ENV:
+        try:
+            client_config = json.loads(CLIENT_SECRET_ENV)
+            return Flow.from_client_config(
+                client_config, scopes=SCOPES, redirect_uri=REDIRECT_URI
+            )
+        except json.JSONDecodeError:
+            raise ValueError("Format JSON pada GOOGLE_CREDENTIALS tidak valid!")
 
-    # Menggunakan dari_client_config agar tidak membutuhkan file credentials.json fisik
-    return Flow.from_client_config(
-        client_config, scopes=SCOPES, redirect_uri=REDIRECT_URI
-    )
+    # Jalur 2: Jika Env Var kosong, cari file credentials.json fisik
+    elif os.path.exists(CREDENTIALS_FILE):
+        return Flow.from_client_secrets_file(
+            CREDENTIALS_FILE, scopes=SCOPES, redirect_uri=REDIRECT_URI
+        )
+
+    # Jalur 3: Kedua opsi tidak tersedia, lemparkan error
+    else:
+        raise FileNotFoundError(
+            f"Konfigurasi tidak ditemukan! Environment variable GOOGLE_CREDENTIALS "
+            f"kosong dan file '{CREDENTIALS_FILE}' tidak ditemukan di direktori project."
+        )
 
 
 def save_credentials(credentials):
