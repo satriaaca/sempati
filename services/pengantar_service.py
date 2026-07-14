@@ -320,7 +320,7 @@ def create_pengantar_document(
 
     safe_perihal = sanitize_filename(perihal)
 
-    file_name = f"PENGANTAR-{file_date}-{safe_perihal}"
+    file_name = f"PENGANTAR-{safe_perihal}"
 
     dokumen = create_surat_pengantar(form_data)
 
