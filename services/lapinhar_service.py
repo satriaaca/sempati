@@ -114,16 +114,18 @@ def create_lapinhar_document(
         footer = section.footer
         footer.paragraphs[0].text = "RAHASIA"
         footer.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-    p = doc.add_paragraph()
-    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p.add_run("L.IN.1").bold = True
-
+    
     p = doc.add_paragraph()
     p.paragraph_format.space_after = Pt(2)
     run = p.add_run("KEJAKSAAN NEGERI TABANAN\n")
     run.bold = True
     run.underline = True
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    p.add_run("L.IN.1").bold = True
+    p.add_run(f"\n COPY KE: …\nDARI … COPIES")
+
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
