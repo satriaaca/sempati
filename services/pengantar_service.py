@@ -57,6 +57,12 @@ def create_surat_pengantar(form_data, output_path="surat_pengantar.docx"):
 # 2. KOP SURAT (Menggunakan Tabel tanpa border untuk presisi Logo & Teks)
     kop_table = doc.add_table(rows=1, cols=2)
     kop_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+
+    laporan_date = datetime.datetime.strptime(form_data["tglInput"], "%Y-%m-%d")
+
+    file_date = laporan_date.strftime("%Y-%m-%d")
+    mm = laporan_date.strftime("%m")
+    yyyy = file_date = laporan_date.strftime("%Y")
     
     # Mematikan AutoFit agar Word patuh pada ukuran kolom statis
     disable_table_autofit(kop_table)
@@ -136,7 +142,7 @@ def create_surat_pengantar(form_data, output_path="surat_pengantar.docx"):
     p_nomor = doc.add_paragraph()
     p_nomor.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_nomor.paragraph_format.space_after = Pt(10)
-    p_nomor.add_run(f"NOMOR : {form_data['nomorTar']}")
+    p_nomor.add_run(f"NOMOR:R-{form_data['nomorSurat']}//N.1.17/{form_data['kodeMasalah']}/{mm}/{yyyy}")
 
     # 6. TABEL UTAMA (Porsi lebar kolom disesuaikan agar NO dan JUMLAH lebih kecil)
     table = doc.add_table(rows=2, cols=4)
@@ -181,9 +187,9 @@ def create_surat_pengantar(form_data, output_path="surat_pengantar.docx"):
     r_title = p_naskah.add_run(f"{form_data['nama_laporan']}\n")
     r_title.bold = True
     
-    p_naskah.add_run(f"Nomor     :  {form_data['nomorSurat']}\n")
+    p_naskah.add_run(f"Nomor     : LIK-{form_data['nomorSurat']}//N.1.17/{form_data['kodeMasalah']}/{mm}/{yyyy}\n")
     p_naskah.add_run(f"Tanggal   :  {form_data['tanggal_surat']}\n")
-    p_naskah.add_run(f"Perihal     :  {form_data['perihal']}")
+    p_naskah.add_run(f"Perihal   :  {form_data['perihal']}")
 
     # Kolom 2: Jumlah
     cell_jumlah = table.cell(1, 2)

@@ -137,7 +137,7 @@ def create_lapinhar_document(
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.add_run(f"NOMOR:LIH-{nomor_surat}//N.1.17/{kode_masalah}/{mm}/{yyyy}")
+    p.add_run(f"NOMOR:LIH-{nomor_surat}/N.1.17/{kode_masalah}/{mm}/{yyyy}")
 
 
     run.bold = True

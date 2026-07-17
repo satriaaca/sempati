@@ -2,7 +2,8 @@ from googleapiclient.discovery import build
 from auth.google_auth import get_credentials
 import os
 
-GOOGLE_FOLDER_ID = os.environ.get("GOOGLE_FOLDER_ID")
+GOOGLE_FOLDER_ID = os.environ.get("GOOGLE_FOLDER_ID", "1_Ft7xPc1oSnSZTO8VEUI8K6sA5yrK-V1")
+GOOGLE_LISUS_FOLDER_ID = os.environ.get("GOOGLE_LISUS_FOLDER_ID", "1fkcYYm309WUZICtCCXs3h9HezzvLxXDd")
 
 def get_google_services():
 

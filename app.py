@@ -6,7 +6,7 @@ from google.oauth2.credentials import Credentials
 from services.lapinhar_service import create_lapinhar_document
 from services.lapinsus_service import create_lapinsus_document
 from services.pengantar_service import create_pengantar_document
-from services.google_service import get_google_services, GOOGLE_FOLDER_ID
+from services.google_service import get_google_services, GOOGLE_FOLDER_ID, GOOGLE_LISUS_FOLDER_ID
 from auth.google_auth import create_flow, save_credentials, get_credentials, REDIRECT_URI
 
 app = Flask(__name__)
@@ -140,13 +140,13 @@ def save_lapinsus():
         url = create_lapinsus_document(
             drive_service=drive_service,
             form_data=data,
-            target_folder_id=GOOGLE_FOLDER_ID,
+            target_folder_id=GOOGLE_LISUS_FOLDER_ID,
         )
 
         tar = create_pengantar_document(
             drive_service=drive_service,
             form_data=data,
-            target_folder_id=GOOGLE_FOLDER_ID,
+            target_folder_id=GOOGLE_LISUS_FOLDER_ID,
         )
 
         return jsonify({"message": "Dokumen berhasil dibuat", "url": url})
