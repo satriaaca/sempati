@@ -4,7 +4,9 @@ from google_auth_oauthlib.flow import Flow
 from google.oauth2.credentials import Credentials
 
 from services.lapinhar_service import create_lapinhar_document
-from services.google_service import get_google_services, GOOGLE_FOLDER_ID
+from services.lapinsus_service import create_lapinsus_document
+from services.pengantar_service import create_pengantar_document
+from services.google_service import get_google_services, GOOGLE_FOLDER_ID, GOOGLE_LISUS_FOLDER_ID
 from auth.google_auth import create_flow, save_credentials, get_credentials, REDIRECT_URI
 
 app = Flask(__name__)
@@ -21,36 +23,6 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive",
     "https://www.googleapis.com/auth/documents",
 ]
-
-# CLIENT_SECRETS_FILE = "credentials.json"
-
-# REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://127.0.0.1:5000/oauth2callback")
-
-
-# def create_flow():
-#     return Flow.from_client_secrets_file(
-#         CLIENT_SECRETS_FILE,
-#         scopes=SCOPES,
-#         redirect_uri=REDIRECT_URI,
-#     )
-
-
-# def save_credentials(credentials):
-#     session["credentials"] = {
-#         "token": credentials.token,
-#         "refresh_token": credentials.refresh_token,
-#         "token_uri": credentials.token_uri,
-#         "client_id": credentials.client_id,
-#         "client_secret": credentials.client_secret,
-#         "scopes": credentials.scopes,
-#     }
-
-
-# def get_credentials():
-#     if "credentials" not in session:
-#         return None
-
-#     return Credentials(**session["credentials"])
 
 
 PUBLIC_ENDPOINTS = {
@@ -130,6 +102,11 @@ def lapinhar_page():
     return render_template("lapinhar.html")
 
 
+@app.route("/input/lapinsus")
+def lapinsus_page():
+    return render_template("lapinsus.html")
+
+
 @app.route("/api/save-form", methods=["POST"])
 def save_form():
 
@@ -143,6 +120,33 @@ def save_form():
             drive_service=drive_service,
             form_data=data,
             target_folder_id=GOOGLE_FOLDER_ID,
+        )
+
+        return jsonify({"message": "Dokumen berhasil dibuat", "url": url})
+
+    except Exception as e:
+
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/api/save-lapinsus", methods=["POST"])
+def save_lapinsus():
+
+    try:
+
+        data = request.get_json()
+
+        docs_service, drive_service = get_google_services()
+
+        url = create_lapinsus_document(
+            drive_service=drive_service,
+            form_data=data,
+            target_folder_id=GOOGLE_LISUS_FOLDER_ID,
+        )
+
+        tar = create_pengantar_document(
+            drive_service=drive_service,
+            form_data=data,
+            target_folder_id=GOOGLE_LISUS_FOLDER_ID,
         )
 
         return jsonify({"message": "Dokumen berhasil dibuat", "url": url})

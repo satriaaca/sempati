@@ -2,3 +2,4 @@ credentials.json
 .env
 .venv/
 *.pyc
+tes_surat.py

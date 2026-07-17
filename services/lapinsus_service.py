@@ -57,7 +57,7 @@ def upload_to_drive(doc, file_name, drive_service, target_folder_id=None):
             os.remove(local_docx)
 
 
-def create_lapinhar_document(
+def create_lapinsus_document(
     drive_service,
     form_data,
     target_folder_id=None,
@@ -79,6 +79,12 @@ def create_lapinhar_document(
 
     nip = form_data.get("nip", "Jaksa Muda NIP. 19820412 200501 1 003")
 
+    pejabat_tar = form_data.get("pejabatTar", "Medie, S.H, M.H.")
+
+    jabatan_tar = form_data.get("jabatanTar", "Kepala Kejaksaan Negeri Tabanan")
+
+    nip_tar = form_data.get("nipTar", "Jaksa Madya NIP.  19710524 199003 1 001 ")
+
     informasi_items = html_to_lines(informasi_html)
 
     trend_items = html_to_lines(trend_html)
@@ -95,17 +101,15 @@ def create_lapinhar_document(
 
     safe_perihal = sanitize_filename(perihal)
 
-    file_name = f"{file_date} - {safe_perihal}"
-
-    local_docx = f"{file_name}.docx"
+    file_name = f"LAPINSUS-{safe_perihal}"
 
     doc = Document()
 
     for section in doc.sections:
-        section.top_margin = Inches(1)
-        section.bottom_margin = Inches(1)
-        section.left_margin = Inches(1)
-        section.right_margin = Inches(1)
+        section.top_margin = Cm(2)
+        section.bottom_margin = Cm(2)
+        section.left_margin = Cm(3)
+        section.right_margin = Cm(3)
 
         header = section.header
         header.paragraphs[0].text = "RAHASIA"
@@ -123,21 +127,20 @@ def create_lapinhar_document(
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    p.add_run("L.IN.1").bold = True
+    p.add_run("L.IN.2").bold = True
     p.add_run(f"\n COPY KE: …\nDARI … COPIES")
-
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_after = Pt(0)
 
-    run = p.add_run("LAPORAN INFORMASI HARIAN")
+    run = p.add_run("LAPORAN INFORMASI KHUSUS")
     run.bold = True
     run.underline = True
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    p.add_run(f"NOMOR:LIH-{nomor_surat}/N.1.17/{kode_masalah}/{mm}/{yyyy}")
+    p.add_run(f"NOMOR:LIK-{nomor_surat}//N.1.17/{kode_masalah}/{mm}/{yyyy}")
 
 
     run.bold = True
@@ -170,7 +173,7 @@ def create_lapinhar_document(
         bullet.add_run(item)
 
     p = doc.add_paragraph()
-    p.add_run("IV. SARAN/PENDAPAT").bold = True
+    p.add_run("IV. SARAN/TINDAK").bold = True
     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p.paragraph_format.space_after = Pt(0)
 
@@ -178,29 +181,51 @@ def create_lapinhar_document(
         "Agar Intelijen Kejaksaan Negeri Tabanan tetap berkoordinasi dengan instansi terkait kegiatan yang dilaksanakan di kabupaten Tabanan dan agar dapat dilaporkan kepada pimpinan secara berjenjang."
     ).alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
-    table = doc.add_table(rows=1, cols=2)
+# Membuat tabel dengan 2 baris dan 2 kolom
+    table = doc.add_table(rows=2, cols=2)
 
-    right_cell = table.cell(0, 1)
-
-    p = right_cell.paragraphs[0]
-
-    # rata tengah
+    # BARIS PERTAMA (Indeks Baris 0)
+    # Kolom Pertama (Indeks 0) -> Berisi OTENTIKASI
+    left_cell1 = table.cell(0, 0) # DIUBAH ke (0, 0)
+    p = left_cell1.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.add_run(f"\nOTENTIKASI")
 
-    p.add_run(
-        f"\nSingasana, {tanggal_indonesia}\n"
-        f"{jabatan}\n\n"
-    )
+    # Kolom Kedua (Indeks 1) -> Biarkan kosong (tidak perlu dipanggil/diisi)
 
-    # Tambahkan gambar tanda tangan
+
+    # BARIS KEDUA (Indeks Baris 1)
+    # Kolom Pertama (Indeks 0) -> Tanda Tangan Kiri
+    left_cell = table.cell(1, 0) # DIUBAH ke (1, 0)
+
+    p = left_cell.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.add_run(f"\n\n{jabatan}\n\n")
+    
     run_gambar = p.add_run()
-
     run_gambar.add_picture("static/images/esign.png", width=Cm(3.18), height=Cm(1.3))
     nama = p.add_run(f"\n{pejabat}\n")
     nama.bold = True
     nama.underline = True
-
     p.add_run(f"{nip}")
+
+
+    # Kolom Kedua (Indeks 1) -> Tanda Tangan Kanan
+    right_cell = table.cell(1, 1) # DIUBAH ke (1, 1)
+
+    p = right_cell.paragraphs[0]
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.add_run(
+        f"\nSingasana, {tanggal_indonesia}\n"
+        f"{jabatan_tar}\n\n"
+    )
+
+    run_gambar = p.add_run()
+    run_gambar.add_picture("static/images/esign.png", width=Cm(3.18), height=Cm(1.3))
+    nama = p.add_run(f"\n{pejabat_tar}\n")
+    nama.bold = True
+    nama.underline = True
+    p.add_run(f"{nip_tar}")
 
     try:
         # 4. Panggil fungsi untuk memproses dan mengunggah dokumen

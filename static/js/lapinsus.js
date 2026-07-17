@@ -72,13 +72,20 @@ async function saveDocument() {
         
         pejabat: document.getElementById( "pejabat").value,
         jabatan: document.getElementById("jabatan").value,
-        nip: document.getElementById("nip").value
+        nip: document.getElementById("nip").value,
+        pejabatTar: document.getElementById( "pejabatTar").value,
+        jabatanTar: document.getElementById("jabatanTar").value,
+        nipTar: document.getElementById("nipTar").value,
+        nomorTar:
+            document.getElementById(
+                "nomorTar"
+            ).value,
     };
 
     try {
 
         const response = await fetch(
-            "/api/save-form",
+            "/api/save-lapinsus",
             {
                 method: "POST",
                 headers: {
